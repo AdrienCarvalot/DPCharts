@@ -423,12 +423,20 @@ open class DPPieChartView: UIView {
         let maskRadius: CGFloat = arcDonutInnerRadius - slicesSpacing
         let mask: CAShapeLayer = CAShapeLayer()
         mask.fillColor = UIColor.black.cgColor
-        mask.path = UIBezierPath(
+        mask.lineCapStyle = .round
+        mask.lineJoinStyle = .round
+        
+        let path = UIBezierPath(
             arcCenter: maskCenter,
             radius: maskRadius,
             startAngle: 0,
             endAngle: 2 * .pi,
-            clockwise: true).cgPath
+            clockwise: true)
+        path.lineCapStyle = .round
+        path.lineJoinStyle = .round
+        
+        mask.path = path.cgPath
+        
         stackViewContainer.center = arcCenter
         stackViewContainer.layer.mask = mask
         stackViewContainer.isHidden = false
@@ -450,7 +458,7 @@ open class DPPieChartView: UIView {
             let fromY = ((arcRadius + labelsSpacing) * sin(angle)) + chartLabelsShift[i].y
             let string = datasource.pieChartView(self, labelForSliceAtIndex: i, forValue: chartValues[i], withTotal: total) ?? ""
             let attributedString = NSAttributedString(string: string, attributes: [
-                .foregroundColor: labelsColor,
+                .foregroundColor: datasource.pieChartView(self, colorForSliceAtIndex: i),
                 .font: labelsFont
             ])
             label.contentsScale = UIScreen.main.scale
@@ -489,6 +497,8 @@ open class DPPieChartView: UIView {
             }
             // DONUT
             if donutEnabled {
+                path.lineCapStyle = .round
+                path.lineJoinStyle = .round
                 path.append(UIBezierPath(
                     arcCenter: arcCenter,
                     radius: arcDonutInnerRadius,
@@ -524,6 +534,8 @@ open class DPPieChartView: UIView {
                 endAngle: to + rotation,
                 clockwise: true)
             path.addLine(to: arcCenter)
+            path.lineCapStyle = .round
+            path.lineJoinStyle = .round
             path.close()
             CATransaction.begin()
             CATransaction.setDisableActions(true)

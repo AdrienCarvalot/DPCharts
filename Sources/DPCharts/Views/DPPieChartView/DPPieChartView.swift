@@ -423,20 +423,12 @@ open class DPPieChartView: UIView {
         let maskRadius: CGFloat = arcDonutInnerRadius - slicesSpacing
         let mask: CAShapeLayer = CAShapeLayer()
         mask.fillColor = UIColor.black.cgColor
-        mask.lineCapStyle = .round
-        mask.lineJoinStyle = .round
-        
-        let path = UIBezierPath(
+        mask.path = UIBezierPath(
             arcCenter: maskCenter,
             radius: maskRadius,
             startAngle: 0,
             endAngle: 2 * .pi,
-            clockwise: true)
-        path.lineCapStyle = .round
-        path.lineJoinStyle = .round
-        
-        mask.path = path.cgPath
-        
+            clockwise: true).cgPath
         stackViewContainer.center = arcCenter
         stackViewContainer.layer.mask = mask
         stackViewContainer.isHidden = false
@@ -497,8 +489,6 @@ open class DPPieChartView: UIView {
             }
             // DONUT
             if donutEnabled {
-                path.lineCapStyle = .round
-                path.lineJoinStyle = .round
                 path.append(UIBezierPath(
                     arcCenter: arcCenter,
                     radius: arcDonutInnerRadius,
@@ -534,8 +524,6 @@ open class DPPieChartView: UIView {
                 endAngle: to + rotation,
                 clockwise: true)
             path.addLine(to: arcCenter)
-            path.lineCapStyle = .round
-            path.lineJoinStyle = .round
             path.close()
             CATransaction.begin()
             CATransaction.setDisableActions(true)

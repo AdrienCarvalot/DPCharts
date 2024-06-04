@@ -369,7 +369,9 @@ open class DPPieChartView: UIView {
         for _ in 0..<numberOfSlices {
             let shapeLayer = CAShapeLayer()
             let shapeMaskLayer = CAShapeLayer()
+            shapeLayer.cornerRadius = 20
             shapeLayers.append(shapeLayer)
+            shapeMaskLayer.cornerRadius = 20
             shapeMaskLayers.append(shapeMaskLayer)
             layer.addSublayer(shapeLayer)
         }
